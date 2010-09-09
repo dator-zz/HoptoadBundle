@@ -8,11 +8,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class HoptoadExtension extends Extension
 {
-    
-    protected $resources = array(
-        'config' => 'config.xml',
-        'helper' => 'helper.xml'
-    );
 
     /**
      * Loads the web configuration.
@@ -24,19 +19,17 @@ class HoptoadExtension extends Extension
     {
         if (!$container->hasDefinition('hoptoad.config')) {
             $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
-            $loader->load($this->resources['config']);
+            $loader->load('config.xml');
         }
         
-        if (!$container->hasDefinition('hoptoad.helper')) {
-            $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
-            $loader->load($this->resources['helper']);
+        foreach (array('key', 'client') as $key) {
+            if (isset($config[$key])) {
+                $parameters[$key] = $config[$key];
+            }
         }
         
-        $parameters = array(
-            'key'   => $config['key'],
-            'env'   => $container->getParameterBag()->get('kernel.environment')
-        );
-        
+        $parameters['env'] = $container->getParameterBag()->get('kernel.environment');
+       
         $container->getDefinition('hoptoad.api')->addArgument($parameters);
         $container->getDefinition('hoptoad.helper')->addArgument($parameters);
     }

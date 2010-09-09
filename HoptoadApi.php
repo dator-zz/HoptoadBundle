@@ -3,8 +3,6 @@
 namespace Bundle\HoptoadBundle;
 
 use Symfony\Component\EventDispatcher\Event;
-use Zend\Http\Client;
-
 /**
  * Hoptoad API 
  *
@@ -37,8 +35,13 @@ class HoptoadApi
      */
     public $options;
     
+    protected $clients = array('curl', 'zend', 'pear');
+    
     public function __construct(array $parameters)
     {
+        if(!isset($parameters['client'])){
+            $parameters['client'] = $this->clients[0];
+        }
         $this->options = $parameters;
     }
     
@@ -50,6 +53,18 @@ class HoptoadApi
     public function getEvent()
     {
         return $this->event;
+    }
+    
+    public function getClient()
+    {
+        $client = $this->options['client'];
+        if(in_array(strtolower($client), $this->clients)){
+            $class = 'Bundle\\HoptoadBundle\\Client\\'. ucfirst($client);
+            $className = new $class;
+            return $className;
+        }else{
+            throw new \Exception(sprintf('The client %s is not supported by HoptoadBundle ', $client));
+        }
     }
     
     /**
@@ -71,31 +86,22 @@ class HoptoadApi
         );
         $body = $this->build();
         
-        //echo($body);die();
-        $header_strings = array();
-        foreach ($headers as $key => $val) {
-            $header_strings[] = "{$key}: {$val}";
-        }
-
-        if(!class_exists('Zend\Http\Client')){
-            throw new \Exception('The HoptoadBundle requires the Zend Framework 2.0');
-        }
+        $client = $this->getClient();
+        $client->setUrl($url);
+        $client->setHeaders($headers);
+        $client->setBody($body);
         
-        $client = new Client($url);
-        $client->setHeaders($header_strings);
-        $client->setRawData($body, 'text/xml');
+        $response = $client->send();
         
-        $response = $client->request('POST');
-        
-        if($response->getStatus() == self::EXCEPTION_SSL){
+        if($response == self::EXCEPTION_SSL){
             throw new \Exception('The requested project does not support SSL');
-        }else if($response->getStatus() == self::EXCEPTION_NOTICE){
+        }else if($response == self::EXCEPTION_NOTICE){
             throw new \Exception('The submitted notice was invalid - check the xml and ensure the API key is correct');
-        }else if($response->getStatus() == self::EXCEPTION_ERROR){
+        }else if($response == self::EXCEPTION_ERROR){
             throw new \Exception('Unexpected errors - submit a bug report at http://help.hoptoadapp.com');
         }
         
-        return $response->getStatus();
+        return $response;
     }
     
     

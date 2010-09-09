@@ -24,6 +24,7 @@ Installation
           # application/config/config.yml
           hoptoad.config:
             key: 'YOURKEYGOESHERE'
+            config: 'Zend' # or Curl, Pear (default to curl)
 
 Setting up the PHP Notifier
 ---------------------------

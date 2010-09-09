@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="hoptoad.api.class">Bundle\HoptoadBundle\HoptoadApi</parameter>
         <parameter key="hoptoad.listener.class">Bundle\HoptoadBundle\Debug\ExceptionListener</parameter>
+        <parameter key="hoptoad.helper.class">Bundle\HoptoadBundle\Templating\Helper\HoptoadHelper</parameter>
     </parameters>
     
     <services>
@@ -14,6 +15,9 @@
         <service id="hoptoad.listener" class="%hoptoad.listener.class%">
           <tag name="kernel.listener" />
           <argument type="service" id="hoptoad.api" />
+        </service>
+        <service id="hoptoad.helper" class="%hoptoad.helper.class%">
+            <tag name="templating.helper" alias="hoptoad" />
         </service>
     </services>
 </container>
