@@ -60,8 +60,7 @@ class HoptoadApi
         $client = $this->options['client'];
         if(in_array(strtolower($client), $this->clients)){
             $class = 'Bundle\\HoptoadBundle\\Client\\'. ucfirst($client);
-            $className = new $class;
-            return $className;
+            return new $class;
         }else{
             throw new \Exception(sprintf('The client %s is not supported by HoptoadBundle ', $client));
         }
