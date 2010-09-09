@@ -37,12 +37,14 @@ class HoptoadApi
     
     protected $clients = array('curl', 'zend', 'pear');
     
+    protected $defaults = array(
+        'client'    => 'curl',
+        'env'       => 'dev'
+    );
+    
     public function __construct(array $parameters)
     {
-        if(!isset($parameters['client'])){
-            $parameters['client'] = $this->clients[0];
-        }
-        $this->options = $parameters;
+        $this->options = array_merge($this->defaults, $parameters);
     }
     
     public function setEvent(Event $event)
@@ -127,7 +129,7 @@ class HoptoadApi
         $error->addChild('class', get_class($exception));
         $error->addChild('message', $exception->getMessage());
         $this->addXmlBacktrace($error, $exception);
-
+        
         $env = $doc->addChild('server-environment');
         $env->addChild('project-root', $request->server->get('DOCUMENT_ROOT'));
         $env->addChild('environment-name', $this->options['env']);
