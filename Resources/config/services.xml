@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 
-<container xmlns="http://www.symfony-project.org/schema/dic/services"
+<container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
         <parameter key="hoptoad.api.class">Hoptoad\HoptoadBundle\HoptoadApi</parameter>
@@ -13,7 +13,7 @@
     <services>
         <service id="hoptoad.api" class="%hoptoad.api.class%" />
         <service id="hoptoad.listener" class="%hoptoad.listener.class%">
-          <tag name="kernel.listener" />
+          <tag name="kernel.listener" event="onCoreException" />
           <argument type="service" id="hoptoad.api" />
         </service>
         <service id="hoptoad.helper" class="%hoptoad.helper.class%">

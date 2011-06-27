@@ -12,7 +12,7 @@ Installation
           {
               return array(
                   // ...
-                  new Bundle\HoptoadBundle\HoptoadBundle(),
+                  new Hoptoad\HoptoadBundle\HoptoadBundle(),
                   // ...
               );
           }

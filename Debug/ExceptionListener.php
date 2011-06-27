@@ -1,11 +1,12 @@
 <?php
 
-namespace Bundle\HoptoadBundle\Debug;
+namespace Hoptoad\HoptoadBundle\Debug;
 
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Response;
-use Bundle\HoptoadBundle\HoptoadApi;
+use Symfony\Component\HttpKernel\Events;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+
+use Hoptoad\HoptoadBundle\HoptoadApi;
 
 /*
  * This file is part of the Symfony framework.
@@ -29,18 +30,19 @@ class ExceptionListener
     {
         $this->hoptoad = $hoptoad;
     } 
+
     /**
-     * Registers a core.exception listener.
+     * Registers an onCoreException listener.
      *
      * @param EventDispatcher $dispatcher An EventDispatcher instance
      * @param integer         $priority   The priority
      */
-    public function register(EventDispatcher $dispatcher, $priority = 0)
+    public function register(EventDispatcherInterface $dispatcher)
     {
-        $dispatcher->connect('core.exception', array($this, 'handle'), $priority);
+        $dispatcher->addListener(Events::onCoreException, $this);
     }
 
-    public function handle(Event $event)
+    public function onCoreException(GetResponseForExceptionEvent $event)
     {
         $this->hoptoad->setEvent($event);
         try{

@@ -1,8 +1,8 @@
 <?php
 
-namespace Bundle\HoptoadBundle\Client;
+namespace Hoptoad\HoptoadBundle\Client;
 
-use Bundle\HoptoadBundle\Client\ClientInterface;
+use Hoptoad\HoptoadBundle\Client\ClientInterface;
 
 class Pear extends BaseClient implements ClientInterface
 {

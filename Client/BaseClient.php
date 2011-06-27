@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\HoptoadBundle\Client;
+namespace Hoptoad\HoptoadBundle\Client;
 
 abstract class BaseClient 
 {

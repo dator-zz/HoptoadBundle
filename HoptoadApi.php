@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\HoptoadBundle;
+namespace Hoptoad\HoptoadBundle;
 
 use Symfony\Component\EventDispatcher\Event;
 /**
@@ -18,7 +18,7 @@ class HoptoadApi
 {
     const NOTIFIER_NAME         = 'HoptoadBundle';
     const NOTIFIER_VERSION      = '2.0';
-    const NOTIFIER_URL          = 'http://github.com/dator/HoptoadBundle';
+    const NOTIFIER_URL          = 'http://github.com/realestateconz/HoptoadBundle';
     const NOTIFIER_API_VERSION  = '0.1';
     
     const EXCEPTION_SSL         = '403';
@@ -61,7 +61,7 @@ class HoptoadApi
     {
         $client = $this->options['client'];
         if(in_array(strtolower($client), $this->clients)){
-            $class = 'Bundle\\HoptoadBundle\\Client\\'. ucfirst($client);
+            $class = 'Hoptoad\\HoptoadBundle\\Client\\'. ucfirst($client);
             return new $class;
         }else{
             throw new \Exception(sprintf('The client %s is not supported by HoptoadBundle ', $client));
@@ -111,9 +111,9 @@ class HoptoadApi
      */ 
     protected function build()
     {
-        $event      = $this->getEvent()->getParameters();
-        $exception  = $event['exception'];
-        $request    = $event['request'];
+        $event      = $this->getEvent();
+        $exception  = $this->getEvent()->getException();
+        $request    = $this->getEvent()->getRequest();
         $parameters = $request->attributes;
 
         $doc = new \SimpleXMLElement('<notice />');

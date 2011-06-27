@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\HoptoadBundle\Templating\Helper;
+namespace Hoptoad\HoptoadBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
 

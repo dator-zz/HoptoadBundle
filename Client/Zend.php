@@ -1,9 +1,9 @@
 <?php
 
-namespace Bundle\HoptoadBundle\Client;
+namespace Hoptoad\HoptoadBundle\Client;
 
-use Bundle\HoptoadBundle\Client\ClientInterface;
-use Bundle\HoptoadBundle\Client\BaseClient;
+use Hoptoad\HoptoadBundle\Client\ClientInterface;
+use Hoptoad\HoptoadBundle\Client\BaseClient;
 
 use Zend\Http\Client;
 

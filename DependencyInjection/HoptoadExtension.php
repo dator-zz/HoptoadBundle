@@ -1,10 +1,13 @@
 <?php
 
-namespace Bundle\HoptoadBundle\DependencyInjection;
+namespace Hoptoad\HoptoadBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Config\FileLocator;
+
 
 class HoptoadExtension extends Extension
 {
@@ -15,21 +18,25 @@ class HoptoadExtension extends Extension
      * @param array            $config    An array of configuration settings
      * @param ContainerBuilder $container A ContainerBuilder instance
      */
-    public function configLoad($config, ContainerBuilder $container)
+    public function load(array $config, ContainerBuilder $container)
     {
         if (!$container->hasDefinition('hoptoad.config')) {
-            $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
-            $loader->load('config.xml');
+            $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+            $loader->load('services.xml');
         }
-        
-        foreach (array('key', 'client') as $key) {
-            if (isset($config[$key])) {
-                $parameters[$key] = $config[$key];
-            }
-        }
-        
-        $parameters['env'] = $container->getParameterBag()->get('kernel.environment');
        
+        foreach ($config as $temp)
+        { 
+          foreach ($temp as $key => $value)
+          {
+              if (in_array($key, array('key', 'client'))) {
+                  $parameters[$key] = $value;
+              }
+          }
+        }
+
+        $parameters['env'] = $container->getParameterBag()->get('kernel.environment');
+
         $container->getDefinition('hoptoad.api')->addArgument($parameters);
         $container->getDefinition('hoptoad.helper')->addArgument($parameters);
     }
@@ -46,7 +53,7 @@ class HoptoadExtension extends Extension
 
     public function getNamespace()
     {
-        return 'http://www.symfony-project.org/schema/dic/symfony';
+        return 'hoptoad.config';
     }
 
     public function getAlias()
