@@ -13,7 +13,7 @@
     <services>
         <service id="hoptoad.api" class="%hoptoad.api.class%" />
         <service id="hoptoad.listener" class="%hoptoad.listener.class%">
-          <tag name="kernel.listener" event="onCoreException" />
+          <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
           <argument type="service" id="hoptoad.api" />
         </service>
         <service id="hoptoad.helper" class="%hoptoad.helper.class%">

@@ -42,7 +42,7 @@ class ExceptionListener
         $dispatcher->addListener(Events::onCoreException, $this);
     }
 
-    public function onCoreException(GetResponseForExceptionEvent $event)
+    public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $this->hoptoad->setEvent($event);
         try{

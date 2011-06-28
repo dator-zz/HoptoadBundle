@@ -3,7 +3,7 @@ Installation
 
   1. Add this bundle to your project as Git submodules:
 
-          $ git submodule add git://github.com/dator/HoptoadBundle.git src/Bundle/HoptoadBundle
+          $ git submodule add git://github.com/realestateconz/HoptoadBundle.git src/Hoptoad/HoptoadBundle
 
   2. Add this bundle to your application's kernel:
 
@@ -21,10 +21,12 @@ Installation
   
   4. Configure the `hoptoad` service in your config:
 
-          # application/config/config.yml
-          hoptoad.config:
+          # app/config/config.yml
+          hoptoad:
             key: 'YOURKEYGOESHERE'
-            config: 'Zend' # or Curl, Pear (default to curl)
+            config: 'curl' # or Zend, Pear (default to curl)
+
+          hoptoad.config: ~
 
 Setting up the PHP Notifier
 ---------------------------
