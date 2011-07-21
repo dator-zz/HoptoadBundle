@@ -1,8 +1,8 @@
 <?php
 
-namespace Hoptoad\HoptoadBundle\Client;
+namespace Airbrake\AirbrakeBundle\Client;
 
-use Hoptoad\HoptoadBundle\Client\ClientInterface;
+use Airbrake\AirbrakeBundle\Client\ClientInterface;
 
 class Pear extends BaseClient implements ClientInterface
 {

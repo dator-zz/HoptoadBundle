@@ -1,18 +1,18 @@
 <?php
 
-namespace Hoptoad\HoptoadBundle\Templating\Helper;
+namespace Airbrake\AirbrakeBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
 
-class HoptoadHelper extends Helper
+class AirbrakeHelper extends Helper
 {
     const FORMAT = <<<HTML
     <script src="%s" type="text/javascript">
       
     </script>
     <script type="text/javascript">
-    Hoptoad.setKey('%s');
-    Hoptoad.setEnvironment(%s)
+    Airbrake.setKey('%s');
+    Airbrake.setEnvironment(%s)
     </script>
 HTML;
 
@@ -25,7 +25,7 @@ HTML;
     public function initialize()
     {
         return sprintf(static::FORMAT, 
-            '//hoptoadapp.com/javascripts/notifier.js',
+            '//airbrakeapp.com/javascripts/notifier.js',
             $this->options['key'],
             $this->options['env']
             );
@@ -33,6 +33,6 @@ HTML;
 
     public function getName()
     {
-        return 'hoptoad';
+        return 'airbrake';
     }
 }

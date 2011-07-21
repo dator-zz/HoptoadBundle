@@ -1,6 +1,6 @@
 <?php
 
-namespace Hoptoad\HoptoadBundle\DependencyInjection;
+namespace Airbrake\AirbrakeBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 
 
-class HoptoadExtension extends Extension
+class AirbrakeExtension extends Extension
 {
 
     /**
@@ -20,7 +20,7 @@ class HoptoadExtension extends Extension
      */
     public function load(array $config, ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('hoptoad.config')) {
+        if (!$container->hasDefinition('airbrake.config')) {
             $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('services.xml');
         }
@@ -37,8 +37,8 @@ class HoptoadExtension extends Extension
 
         $parameters['env'] = $container->getParameterBag()->get('kernel.environment');
 
-        $container->getDefinition('hoptoad.api')->addArgument($parameters);
-        $container->getDefinition('hoptoad.helper')->addArgument($parameters);
+        $container->getDefinition('airbrake.api')->addArgument($parameters);
+        $container->getDefinition('airbrake.helper')->addArgument($parameters);
     }
 
     /**
@@ -53,12 +53,12 @@ class HoptoadExtension extends Extension
 
     public function getNamespace()
     {
-        return 'hoptoad.config';
+        return 'airbrake.config';
     }
 
     public function getAlias()
     {
-        return 'hoptoad';
+        return 'airbrake';
     }
 
 }

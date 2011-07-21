@@ -1,9 +1,9 @@
 <?php
 
-namespace Hoptoad\HoptoadBundle\Client;
+namespace Airbrake\AirbrakeBundle\Client;
 
-use Hoptoad\HoptoadBundle\Client\ClientInterface;
-use Hoptoad\HoptoadBundle\Client\BaseClient;
+use Airbrake\AirbrakeBundle\Client\ClientInterface;
+use Airbrake\AirbrakeBundle\Client\BaseClient;
 
 use Zend\Http\Client;
 

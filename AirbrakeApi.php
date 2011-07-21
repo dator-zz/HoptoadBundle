@@ -1,10 +1,10 @@
 <?php
 
-namespace Hoptoad\HoptoadBundle;
+namespace Airbrake\AirbrakeBundle;
 
 use Symfony\Component\EventDispatcher\Event;
 /**
- * Hoptoad API 
+ * Airbrake API 
  *
  *
  * @author Clément JOBEILI (clement.jobeili@gmail.com)
@@ -14,11 +14,11 @@ use Symfony\Component\EventDispatcher\Event;
  * @see Zend\Http\Client
  */
  
-class HoptoadApi
+class AirbrakeApi
 {
-    const NOTIFIER_NAME         = 'HoptoadBundle';
+    const NOTIFIER_NAME         = 'AirbrakeBundle';
     const NOTIFIER_VERSION      = '2.0';
-    const NOTIFIER_URL          = 'http://github.com/realestateconz/HoptoadBundle';
+    const NOTIFIER_URL          = 'http://github.com/danielknell/AirbrakeBundle';
     const NOTIFIER_API_VERSION  = '0.1';
     
     const EXCEPTION_SSL         = '403';
@@ -61,15 +61,15 @@ class HoptoadApi
     {
         $client = $this->options['client'];
         if(in_array(strtolower($client), $this->clients)){
-            $class = 'Hoptoad\\HoptoadBundle\\Client\\'. ucfirst($client);
+            $class = 'Airbrake\\AirbrakeBundle\\Client\\'. ucfirst($client);
             return new $class;
         }else{
-            throw new \Exception(sprintf('The client %s is not supported by HoptoadBundle ', $client));
+            throw new \Exception(sprintf('The client %s is not supported by AirbrakeBundle ', $client));
         }
     }
     
     /**
-     * Notify the error to hoptoad
+     * Notify the error to airbrake
      * 
      * Raise 4 exceptions:
      *  - if Zend2.0 is not in the autoload
@@ -80,7 +80,7 @@ class HoptoadApi
      */ 
     public function notify()
     {
-        $url = "http://hoptoadapp.com/notifier_api/v2/notices";
+        $url = "http://airbrakeapp.com/notifier_api/v2/notices";
         $headers = array(
             'Accept'        => 'text/xml, application/xml',
             'Content-Type'  => 'text/xml'
@@ -99,7 +99,7 @@ class HoptoadApi
         }else if($response == self::EXCEPTION_NOTICE){
             throw new \Exception('The submitted notice was invalid - check the xml and ensure the API key is correct');
         }else if($response == self::EXCEPTION_ERROR){
-            throw new \Exception('Unexpected errors - submit a bug report at http://help.hoptoadapp.com');
+            throw new \Exception('Unexpected errors - submit a bug report at http://help.airbrakeapp.com');
         }
         
         return $response;

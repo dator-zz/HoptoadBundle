@@ -5,19 +5,19 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="hoptoad.api.class">Hoptoad\HoptoadBundle\HoptoadApi</parameter>
-        <parameter key="hoptoad.listener.class">Hoptoad\HoptoadBundle\Debug\ExceptionListener</parameter>
-        <parameter key="hoptoad.helper.class">Hoptoad\HoptoadBundle\Templating\Helper\HoptoadHelper</parameter>
+        <parameter key="airbrake.api.class">Airbrake\AirbrakeBundle\AirbrakeApi</parameter>
+        <parameter key="airbrake.listener.class">Airbrake\AirbrakeBundle\Debug\ExceptionListener</parameter>
+        <parameter key="airbrake.helper.class">Airbrake\AirbrakeBundle\Templating\Helper\AirbrakeHelper</parameter>
     </parameters>
     
     <services>
-        <service id="hoptoad.api" class="%hoptoad.api.class%" />
-        <service id="hoptoad.listener" class="%hoptoad.listener.class%">
+        <service id="airbrake.api" class="%airbrake.api.class%" />
+        <service id="airbrake.listener" class="%airbrake.listener.class%">
           <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
-          <argument type="service" id="hoptoad.api" />
+          <argument type="service" id="airbrake.api" />
         </service>
-        <service id="hoptoad.helper" class="%hoptoad.helper.class%">
-            <tag name="templating.helper" alias="hoptoad" />
+        <service id="airbrake.helper" class="%airbrake.helper.class%">
+            <tag name="templating.helper" alias="airbrake" />
         </service>
     </services>
 </container>
