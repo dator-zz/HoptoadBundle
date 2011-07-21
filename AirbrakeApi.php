@@ -118,7 +118,7 @@ class AirbrakeApi
 
         $doc = new \SimpleXMLElement('<notice />');
         $doc->addAttribute('version', self::NOTIFIER_API_VERSION);
-        $doc->addChild('api-key', $this->options['key']);
+        $doc->addChild('api-key', htmlspecialchars($this->options['key'], ENT_NOQUOTES));
         
         $notifier = $doc->addChild('notifier');
         $notifier->addChild('name', self::NOTIFIER_NAME);
@@ -127,17 +127,17 @@ class AirbrakeApi
         
         $error = $doc->addChild('error');
         $error->addChild('class', get_class($exception));
-        $error->addChild('message', $exception->getMessage());
+        $error->addChild('message', htmlspecialchars($exception->getMessage(), ENT_NOQUOTES));
         $this->addXmlBacktrace($error, $exception);
         
         $env = $doc->addChild('server-environment');
-        $env->addChild('project-root', $request->server->get('DOCUMENT_ROOT'));
-        $env->addChild('environment-name', $this->options['env']);
+        $env->addChild('project-root', htmlspecialchars($request->server->get('DOCUMENT_ROOT'), ENT_NOQUOTES));
+        $env->addChild('environment-name', htmlspecialchars($this->options['env'], ENT_NOQUOTES));
 
         $rq = $doc->addChild('request');
-        $rq->addChild('url', $request->getRequestUri());
+        $rq->addChild('url', htmlspecialchars($request->getRequestUri(), ENT_NOQUOTES));
         $rq->addChild('component', '');
-        $rq->addChild('action', $request->attributes->get('_controller'));
+        $rq->addChild('action', htmlspecialchars($request->attributes->get('_controller'), ENT_NOQUOTES));
         
         $this->addXmlVars($rq, 'params', $request->query->all());  
         $this->addXmlVars($rq, 'session', $request->getSession()->getAttributes());
@@ -162,7 +162,7 @@ class AirbrakeApi
                 $key = str_replace("\n", ' ', print_r($key, true));
             }
 
-            $var_node = $node->addChild('var', $val);
+            $var_node = $node->addChild('var', htmlspecialchars($val, ENT_NOQUOTES));
             $var_node->addAttribute('key', $key);
         }
     }
