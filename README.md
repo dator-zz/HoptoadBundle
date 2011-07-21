@@ -3,7 +3,7 @@ Installation
 
   1. Add this bundle to your project as Git submodules:
 
-          $ git submodule add git://github.com/realestateconz/AirbrakeBundle.git src/Airbrake/AirbrakeBundle
+          $ git submodule add git://github.com/danielknell/AirbrakeBundle.git src/Airbrake/AirbrakeBundle
 
   2. Add this bundle to your application's kernel:
 
