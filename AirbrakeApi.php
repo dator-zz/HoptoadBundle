@@ -140,7 +140,7 @@ class AirbrakeApi
         $rq->addChild('action', htmlspecialchars($request->attributes->get('_controller'), ENT_NOQUOTES));
         
         $this->addXmlVars($rq, 'params', $request->query->all());  
-        $this->addXmlVars($rq, 'session', $request->getSession()->getAttributes());
+        $this->addXmlVars($rq, 'session', $request->getSession()->all());
         $this->addXmlVars($rq, 'cgi-data', $request->server->all());   
         
         return $doc->asXML();
