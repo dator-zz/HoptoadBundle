@@ -25,7 +25,7 @@ HTML;
     public function initialize()
     {
         return sprintf(static::FORMAT, 
-            'http://hoptoadapp.com/javascripts/notifier.js',
+            '//hoptoadapp.com/javascripts/notifier.js',
             $this->options['key'],
             $this->options['env']
             );
