@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\HoptoadBundle\Client;
+namespace Airbrake\AirbrakeBundle\Client;
 
 interface ClientInterface 
 {

@@ -1,11 +1,12 @@
 <?php
 
-namespace Bundle\HoptoadBundle\Debug;
+namespace Airbrake\AirbrakeBundle\Debug;
 
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Response;
-use Bundle\HoptoadBundle\HoptoadApi;
+use Symfony\Component\HttpKernel\Events;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+
+use Airbrake\AirbrakeBundle\AirbrakeApi;
 
 /*
  * This file is part of the Symfony framework.
@@ -23,30 +24,31 @@ use Bundle\HoptoadBundle\HoptoadApi;
  */
 class ExceptionListener
 {
-    protected $hoptoad;
+    protected $airbrake;
     
-    public function __construct(HoptoadApi $hoptoad)
+    public function __construct(AirbrakeApi $airbrake)
     {
-        $this->hoptoad = $hoptoad;
+        $this->airbrake = $airbrake;
     } 
+
     /**
-     * Registers a core.exception listener.
+     * Registers an onCoreException listener.
      *
      * @param EventDispatcher $dispatcher An EventDispatcher instance
      * @param integer         $priority   The priority
      */
-    public function register(EventDispatcher $dispatcher, $priority = 0)
+    public function register(EventDispatcherInterface $dispatcher)
     {
-        $dispatcher->connect('core.exception', array($this, 'handle'), $priority);
+        $dispatcher->addListener(Events::onCoreException, $this);
     }
 
-    public function handle(Event $event)
+    public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        $this->hoptoad->setEvent($event);
+        $this->airbrake->setEvent($event);
         try{
-            $this->hoptoad->notify();
+            $this->airbrake->notify();
         }catch(\Exception $e){
-           throw new \RuntimeException("HoptoadBundle failed: ".$e->getMessage());
+           throw new \RuntimeException("AirbrakeBundle failed: ".$e->getMessage());
         }
         
         return false;
